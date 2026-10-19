@@ -1,0 +1,10 @@
+$kind: http-request
+name: Consultar servicio inexistente
+method: GET
+url: '{{base_url}}/api/services/999999'
+order: 5000
+scripts:
+    - type: afterResponse
+      language: text/javascript
+      code: |-
+          pm.test('Servicio inexistente responde 404', () => pm.response.to.have.status(404));

@@ -1,0 +1,4 @@
+$kind: collection
+name: 00 Sesion
+description: Obtiene CSRF, inicia sesión como Carlos y comprueba el usuario autenticado.
+order: 1000

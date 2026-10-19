@@ -1,0 +1,4 @@
+$kind: collection
+name: 03 Errores de sesion
+description: Comprueba acceso anónimo, credenciales inválidas, usuario inactivo y ausencia de CSRF.
+order: 4000

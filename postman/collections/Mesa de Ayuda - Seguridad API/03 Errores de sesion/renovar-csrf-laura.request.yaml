@@ -1,0 +1,17 @@
+$kind: http-request
+name: Renovar CSRF antes de cerrar sesión de Laura
+method: GET
+url: '{{base_url}}/sanctum/csrf-cookie'
+order: 500
+scripts:
+    - type: afterResponse
+      language: text/javascript
+      code: |-
+          pm.test('CSRF de Laura responde 204', () => pm.response.to.have.status(204));
+          const xsrfCookie = pm.cookies.get('XSRF-TOKEN');
+          pm.test('Se renovó XSRF-TOKEN de Laura', () => {
+            pm.expect(xsrfCookie).to.be.a('string').and.not.empty;
+          });
+          if (xsrfCookie) {
+            pm.environment.set('xsrf_token', decodeURIComponent(xsrfCookie));
+          }

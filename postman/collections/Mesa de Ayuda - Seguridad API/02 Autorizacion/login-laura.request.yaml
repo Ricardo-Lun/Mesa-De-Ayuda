@@ -1,0 +1,22 @@
+$kind: http-request
+name: Iniciar sesión como Laura
+method: POST
+url: '{{base_url}}/login'
+order: 3000
+headers:
+    - key: Content-Type
+      value: application/json
+    - key: X-XSRF-TOKEN
+      value: '{{xsrf_token}}'
+body:
+    type: json
+    content: |-
+        {
+          "email": "{{laura_email}}",
+          "password": "{{demo_password}}"
+        }
+scripts:
+    - type: afterResponse
+      language: text/javascript
+      code: |-
+          pm.test('Login de Laura responde 200', () => pm.response.to.have.status(200));

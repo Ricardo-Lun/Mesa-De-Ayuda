@@ -1,0 +1,15 @@
+$kind: http-request
+name: Confirmar que el usuario inactivo quedó sin sesión
+method: GET
+url: '{{base_url}}/api/user'
+order: 6000
+scripts:
+    - type: afterResponse
+      language: text/javascript
+      code: |-
+          pm.test('El login inactivo fue rechazado antes de comprobar la sesión', () => {
+            pm.expect(pm.environment.get('inactive_login_was_rejected')).to.eql('true');
+          });
+          pm.test('No existe sesión para el usuario inactivo', () => {
+            pm.response.to.have.status(401);
+          });

@@ -1,0 +1,10 @@
+$kind: http-request
+name: Laura no puede consultar servicio de Carlos
+method: GET
+url: '{{base_url}}/api/services/{{service_carlos_id}}'
+order: 4000
+scripts:
+    - type: afterResponse
+      language: text/javascript
+      code: |-
+          pm.test('Consulta ajena responde 403', () => pm.response.to.have.status(403));

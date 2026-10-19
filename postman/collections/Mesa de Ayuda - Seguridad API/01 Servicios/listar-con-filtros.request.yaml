@@ -1,0 +1,21 @@
+$kind: http-request
+name: Listar servicios pendientes con paginación
+method: GET
+url: '{{base_url}}/api/services?status=pending&per_page=2'
+order: 2000
+queryParams:
+    - key: status
+      value: pending
+    - key: per_page
+      value: '2'
+scripts:
+    - type: afterResponse
+      language: text/javascript
+      code: |-
+          pm.test('Filtro responde 200', () => pm.response.to.have.status(200));
+          pm.test('Respeta el límite y el estado solicitado', () => {
+            const body = pm.response.json();
+            pm.expect(body.per_page).to.eql(2);
+            pm.expect(body.data).to.be.an('array').with.lengthOf.at.most(2);
+            pm.expect(body.data.every(service => service.status === 'pending')).to.be.true;
+          });
