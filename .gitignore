@@ -15,6 +15,7 @@
 .env
 .env.backup
 .env.production
+.env.postman
 .phpactor.json
 .phpunit.result.cache
 Homestead.json
@@ -76,3 +77,6 @@ Homestead.json
 .env.production
 .phpactor.json
 auth.json
+
+# Local documentation drafts
+/TEST.md

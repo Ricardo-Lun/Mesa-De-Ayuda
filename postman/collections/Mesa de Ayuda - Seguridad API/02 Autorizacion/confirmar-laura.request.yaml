@@ -1,0 +1,15 @@
+$kind: http-request
+name: Confirmar que la sesión pertenece a Laura
+method: GET
+url: '{{base_url}}/api/user'
+order: 3500
+scripts:
+    - type: afterResponse
+      language: text/javascript
+      code: |-
+          pm.test('La sesión de Laura responde 200', () => pm.response.to.have.status(200));
+          pm.test('El usuario activo es Laura', () => {
+            const body = pm.response.json();
+            pm.expect(body.email).to.eql(pm.environment.get('laura_email'));
+            pm.environment.set('authenticated_user_id', String(body.id));
+          });

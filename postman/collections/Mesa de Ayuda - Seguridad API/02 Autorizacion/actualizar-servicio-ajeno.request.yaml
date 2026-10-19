@@ -1,0 +1,21 @@
+$kind: http-request
+name: Laura no puede actualizar servicio de Carlos
+method: PATCH
+url: '{{base_url}}/api/services/{{service_carlos_id}}'
+order: 5000
+headers:
+    - key: Content-Type
+      value: application/json
+    - key: X-XSRF-TOKEN
+      value: '{{xsrf_token}}'
+body:
+    type: json
+    content: |-
+        {
+          "status": "completed"
+        }
+scripts:
+    - type: afterResponse
+      language: text/javascript
+      code: |-
+          pm.test('Actualización ajena responde 403', () => pm.response.to.have.status(403));

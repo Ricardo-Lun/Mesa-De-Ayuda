@@ -1,0 +1,10 @@
+$kind: http-request
+name: Rechazar acceso sin sesión
+method: GET
+url: '{{base_url}}/api/services'
+order: 2000
+scripts:
+    - type: afterResponse
+      language: text/javascript
+      code: |-
+          pm.test('Acceso anónimo responde 401', () => pm.response.to.have.status(401));

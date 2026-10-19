@@ -1,0 +1,4 @@
+$kind: collection
+name: 02 Autorizacion
+description: Cambia la sesión a Laura y comprueba que no acceda a un servicio de Carlos.
+order: 3000

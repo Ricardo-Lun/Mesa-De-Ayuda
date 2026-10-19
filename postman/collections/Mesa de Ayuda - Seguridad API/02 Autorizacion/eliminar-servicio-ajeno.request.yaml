@@ -1,0 +1,13 @@
+$kind: http-request
+name: Laura no puede eliminar servicio de Carlos
+method: DELETE
+url: '{{base_url}}/api/services/{{service_carlos_id}}'
+order: 6000
+headers:
+    - key: X-XSRF-TOKEN
+      value: '{{xsrf_token}}'
+scripts:
+    - type: afterResponse
+      language: text/javascript
+      code: |-
+          pm.test('Eliminación ajena responde 403', () => pm.response.to.have.status(403));
