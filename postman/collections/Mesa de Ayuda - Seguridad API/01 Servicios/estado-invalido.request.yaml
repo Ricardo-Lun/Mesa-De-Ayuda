@@ -1,0 +1,24 @@
+$kind: http-request
+name: Rechazar estado inválido
+method: PATCH
+url: '{{base_url}}/api/services/{{service_carlos_id}}'
+order: 4000
+headers:
+    - key: Content-Type
+      value: application/json
+    - key: X-XSRF-TOKEN
+      value: '{{xsrf_token}}'
+body:
+    type: json
+    content: |-
+        {
+          "status": "invented"
+        }
+scripts:
+    - type: afterResponse
+      language: text/javascript
+      code: |-
+          pm.test('Estado inválido responde 422', () => pm.response.to.have.status(422));
+          pm.test('El error identifica status', () => {
+            pm.expect(pm.response.json().errors).to.have.property('status');
+          });

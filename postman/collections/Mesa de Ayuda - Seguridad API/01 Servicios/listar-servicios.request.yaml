@@ -1,0 +1,25 @@
+$kind: http-request
+name: Listar servicios propios
+method: GET
+url: '{{base_url}}/api/services'
+order: 1000
+scripts:
+    - type: afterResponse
+      language: text/javascript
+      code: |-
+          pm.test('Listado autenticado responde 200', () => pm.response.to.have.status(200));
+          pm.test('El listado está paginado', () => {
+            const body = pm.response.json();
+            pm.expect(body).to.have.property('data').that.is.an('array');
+            pm.expect(body).to.have.property('current_page');
+            pm.expect(body).to.have.property('total');
+          });
+          pm.test('Solo aparecen servicios del usuario autenticado', () => {
+            const body = pm.response.json();
+            const services = body.data;
+            const authenticatedUserId = pm.environment.get('authenticated_user_id');
+
+            pm.expect(authenticatedUserId, 'Falta confirmar /api/user').to.be.a('string').and.not.empty;
+            pm.expect(services, 'El listado debe estar paginado').to.be.an('array');
+            pm.expect(services.every(service => String(service.technician_id) === authenticatedUserId)).to.be.true;
+          });

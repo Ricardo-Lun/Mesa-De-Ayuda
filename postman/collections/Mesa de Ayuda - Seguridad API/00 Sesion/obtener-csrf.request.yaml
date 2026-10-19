@@ -1,0 +1,19 @@
+$kind: http-request
+name: Obtener cookie CSRF
+method: GET
+url: '{{base_url}}/sanctum/csrf-cookie'
+order: 1000
+scripts:
+    - type: afterResponse
+      language: text/javascript
+      code: |-
+          pm.test('CSRF responde 204', () => pm.response.to.have.status(204));
+
+          const xsrfCookie = pm.cookies.get('XSRF-TOKEN');
+          pm.test('Se recibió la cookie XSRF-TOKEN', () => {
+            pm.expect(xsrfCookie).to.be.a('string').and.not.empty;
+          });
+
+          if (xsrfCookie) {
+            pm.environment.set('xsrf_token', decodeURIComponent(xsrfCookie));
+          }

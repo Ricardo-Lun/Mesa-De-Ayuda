@@ -1,0 +1,8 @@
+$kind: collection
+name: Mesa de Ayuda - Seguridad API
+description: Verifica el contrato de seguridad esperado para sesiones y servicios. Los fallos actuales documentan trabajo pendiente del backend; no deben ocultarse ni convertirse en expectativas permisivas.
+scripts:
+    - type: http:beforeRequest
+      language: text/javascript
+      code: |-
+          pm.request.headers.upsert({ key: 'Accept', value: 'application/json' });

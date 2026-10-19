@@ -1,0 +1,4 @@
+$kind: collection
+name: 01 Servicios
+description: Verifica aislamiento, paginación, filtros y datos controlados por el servidor.
+order: 2000

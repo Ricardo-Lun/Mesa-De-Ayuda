@@ -1,0 +1,27 @@
+$kind: http-request
+name: Rechazar usuario inactivo
+method: POST
+url: '{{base_url}}/login'
+order: 5000
+headers:
+    - key: Content-Type
+      value: application/json
+    - key: X-XSRF-TOKEN
+      value: '{{xsrf_token}}'
+body:
+    type: json
+    content: |-
+        {
+          "email": "{{inactive_email}}",
+          "password": "{{demo_password}}"
+        }
+scripts:
+    - type: afterResponse
+      language: text/javascript
+      code: |-
+          const inactiveLoginWasRejected = [401, 422].includes(pm.response.code);
+          pm.environment.set('inactive_login_was_rejected', String(inactiveLoginWasRejected));
+
+          pm.test('Un usuario inactivo no inicia sesión', () => {
+            pm.expect(pm.response.code).to.be.oneOf([401, 422]);
+          });

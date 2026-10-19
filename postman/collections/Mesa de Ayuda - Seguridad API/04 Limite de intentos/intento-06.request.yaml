@@ -1,0 +1,19 @@
+$kind: http-request
+name: Intento inválido 6 de 6
+method: POST
+url: '{{base_url}}/login'
+order: 7000
+headers:
+    - key: Content-Type
+      value: application/json
+    - key: X-XSRF-TOKEN
+      value: '{{xsrf_token}}'
+body:
+    type: json
+    content: |-
+        {"email":"{{rate_limit_email}}","password":"incorrect-password"}
+scripts:
+    - type: afterResponse
+      language: text/javascript
+      code: |-
+          pm.test('Sexto intento responde 429', () => pm.response.to.have.status(429));

@@ -31,8 +31,22 @@ jobs:
         with:
           node-version: '22'
 
-      - name: Setup Application
-        run: composer setup
+      - name: Install PHP dependencies
+        run: composer install --no-interaction --prefer-dist --no-progress
 
-      - name: Run CI Checks
+      - name: Configure test application
+        run: |
+          cp .env.example .env
+          php artisan key:generate
+
+      - name: Install and build frontend dependencies
+        run: |
+          npm ci
+          npm run build
+
+      - name: Run PHP tests with in-memory SQLite
+        run: php artisan test --do-not-cache-result
+
+      - name: Run remaining CI checks
+        if: always()
         run: composer ci:check
