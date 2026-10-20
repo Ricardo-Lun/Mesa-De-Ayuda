@@ -1,0 +1,55 @@
+name: Mesa de Ayuda - Local
+values:
+    - key: base_url
+      value: 'http://localhost:8000'
+      enabled: true
+      type: default
+      description: Backend Laravel local
+    - key: carlos_email
+      value: 'carlos.mendoza@example.com'
+      enabled: true
+      type: default
+    - key: laura_email
+      value: 'laura.torres@example.com'
+      enabled: true
+      type: default
+    - key: inactive_email
+      value: 'miguel.herrera@example.com'
+      enabled: true
+      type: default
+    - key: rate_limit_email
+      value: 'rate.limit@example.com'
+      enabled: true
+      type: default
+    - key: demo_password
+      value: ''
+      enabled: true
+      type: secret
+      description: Definir localmente o mediante --env-var; nunca guardar en Git
+    - key: xsrf_token
+      value: ''
+      enabled: true
+      type: secret
+      description: Se obtiene automáticamente de la cookie XSRF-TOKEN
+    - key: authenticated_user_id
+      value: ''
+      enabled: true
+      type: default
+      description: Se obtiene automáticamente de /api/user para comprobar propiedad
+    - key: inactive_login_was_rejected
+      value: ''
+      enabled: true
+      type: default
+      description: Precondición automática para no confundir un /api/user 401 con rechazo del login
+    - key: device_id
+      value: '1'
+      enabled: true
+      type: default
+    - key: service_carlos_id
+      value: '1'
+      enabled: true
+      type: default
+    - key: service_laura_id
+      value: '2'
+      enabled: true
+      type: default

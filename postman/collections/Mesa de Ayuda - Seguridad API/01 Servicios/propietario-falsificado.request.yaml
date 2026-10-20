@@ -1,0 +1,30 @@
+$kind: http-request
+name: Rechazar technician_id falsificado
+method: POST
+url: '{{base_url}}/api/services'
+order: 3000
+headers:
+    - key: Content-Type
+      value: application/json
+    - key: X-XSRF-TOKEN
+      value: '{{xsrf_token}}'
+body:
+    type: json
+    content: |-
+        {
+          "folio": "SEC-POSTMAN-FORGED",
+          "device_id": {{device_id}},
+          "technician_id": 2,
+          "status": "pending"
+        }
+scripts:
+    - type: afterResponse
+      language: text/javascript
+      code: |-
+          pm.test('El técnico declarado por el cliente se rechaza con 422', () => {
+            pm.response.to.have.status(422);
+          });
+          pm.test('El error identifica technician_id', () => {
+            const body = pm.response.json();
+            pm.expect(body.errors).to.have.property('technician_id');
+          });

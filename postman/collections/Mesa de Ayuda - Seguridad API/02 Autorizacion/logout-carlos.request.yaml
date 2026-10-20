@@ -1,0 +1,22 @@
+$kind: http-request
+name: Cerrar sesión de Carlos
+method: POST
+url: '{{base_url}}/logout'
+order: 1000
+headers:
+    - key: X-XSRF-TOKEN
+      value: '{{xsrf_token}}'
+scripts:
+    - type: beforeRequest
+      language: text/javascript
+      code: |-
+          const currentXsrfCookie = pm.cookies.get('XSRF-TOKEN');
+          if (currentXsrfCookie) {
+            const currentXsrfToken = decodeURIComponent(currentXsrfCookie);
+            pm.environment.set('xsrf_token', currentXsrfToken);
+            pm.request.headers.upsert({ key: 'X-XSRF-TOKEN', value: currentXsrfToken });
+          }
+    - type: afterResponse
+      language: text/javascript
+      code: |-
+          pm.test('Logout responde 204', () => pm.response.to.have.status(204));

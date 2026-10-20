@@ -1,0 +1,4 @@
+$kind: collection
+name: 04 Limite de intentos
+description: Ejecuta seis intentos con el mismo correo; los primeros cinco deben rechazarse y el sexto debe responder 429.
+order: 5000

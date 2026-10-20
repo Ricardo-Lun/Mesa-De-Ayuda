@@ -1,0 +1,20 @@
+$kind: http-request
+name: Consultar usuario actual
+method: GET
+url: '{{base_url}}/api/user'
+order: 3000
+scripts:
+    - type: afterResponse
+      language: text/javascript
+      code: |-
+          pm.test('Usuario autenticado responde 200', () => pm.response.to.have.status(200));
+          pm.test('Solo devuelve datos públicos', () => {
+            const body = pm.response.json();
+            pm.expect(body).to.have.property('id');
+            pm.expect(body).to.have.property('name');
+            pm.expect(body).to.have.property('email');
+            pm.expect(body).not.to.have.property('password');
+            pm.expect(body).not.to.have.property('remember_token');
+
+            pm.environment.set('authenticated_user_id', String(body.id));
+          });
